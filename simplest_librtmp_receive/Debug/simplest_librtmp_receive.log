@@ -1,0 +1,25 @@
+﻿Build started 2016/10/19 20:27:21.
+     1>Project "E:\simple_rtmp_test\simplest_librtmp_example\simplest_librtmp_receive\simplest_librtmp_receive.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         D:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /Idemux/include /Iinclude /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt demux\src\FlvParser.cpp simplest_librtmp_receive.cpp
+         simplest_librtmp_receive.cpp
+     1>d:\program files (x86)\microsoft visual studio 12.0\vc\include\errno.h(132): warning C4005: 'EWOULDBLOCK' : macro redefinition
+                 e:\simple_rtmp_test\simplest_librtmp_example\simplest_librtmp_receive\include\librtmp\rtmp_sys.h(40) : see previous definition of 'EWOULDBLOCK'
+     1>e:\simple_rtmp_test\simplest_librtmp_example\simplest_librtmp_receive\simplest_librtmp_receive.cpp(51): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(211) : see declaration of 'fopen'
+         FlvParser.cpp
+     1>e:\simple_rtmp_test\simplest_librtmp_example\simplest_librtmp_receive\demux\src\flvparser.cpp(24): warning C4018: '<' : signed/unsigned mismatch
+     1>e:\simple_rtmp_test\simplest_librtmp_example\simplest_librtmp_receive\demux\src\flvparser.cpp(72): warning C4018: '<' : signed/unsigned mismatch
+     1>e:\simple_rtmp_test\simplest_librtmp_example\simplest_librtmp_receive\demux\src\flvparser.cpp(120): warning C4018: '<' : signed/unsigned mismatch
+         Generating Code...
+       Link:
+         D:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"E:\simple_rtmp_test\simplest_librtmp_example\Debug\simplest_librtmp_receive.exe" /INCREMENTAL /NOLOGO /LIBPATH:lib ws2_32.lib librtmp.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"E:\simple_rtmp_test\simplest_librtmp_example\Debug\simplest_librtmp_receive.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:\simple_rtmp_test\simplest_librtmp_example\Debug\simplest_librtmp_receive.lib" /MACHINE:X86 Debug\FlvParser.obj
+         Debug\vadbg.obj
+         Debug\Videojj.obj
+         Debug\simplest_librtmp_receive.obj
+         simplest_librtmp_receive.vcxproj -> E:\simple_rtmp_test\simplest_librtmp_example\Debug\simplest_librtmp_receive.exe
+     1>Done Building Project "E:\simple_rtmp_test\simplest_librtmp_example\simplest_librtmp_receive\simplest_librtmp_receive.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:01.27
