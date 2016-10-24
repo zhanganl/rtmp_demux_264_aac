@@ -15,12 +15,16 @@ static const unsigned int nH264StartCode = 0x01000000;
 
 CFlvParser::CFlvParser()
 {
+	f_v.open("parser.264", ios_base::out | ios_base::binary | ios_base::app);
+	f_a.open("parser.aac", ios_base::out | ios_base::binary | ios_base::app);
 	_pFlvHeader = NULL;
 	_vjj = new CVideojj();
 }
 
 CFlvParser::~CFlvParser()
 {
+	f_v.close();
+	f_a.close();
 	for (int i = 0; i < _vpTag.size(); i++)
 	{
 		DestroyTag(_vpTag[i]);
@@ -74,44 +78,49 @@ int CFlvParser::PrintInfo()
 	return 1;
 }
 
-int CFlvParser::DumpH264(const std::string &path)
+int CFlvParser::DumpH264()
 {
-	fstream f;
-	f.open(path, ios_base::out|ios_base::binary);
-
 	vector<Tag *>::iterator it_tag;
-	for (it_tag = _vpTag.begin(); it_tag < _vpTag.end(); it_tag++)
+	for (it_tag = _vpTag.begin(); it_tag < _vpTag.end();)
 	{
 		if ((*it_tag)->_header.nType != 0x09)
+		{
+			it_tag++;
 			continue;
+		}
 
-		f.write((char *)(*it_tag)->_pMedia, (*it_tag)->_nMediaLen);
+		f_v.write((char *)(*it_tag)->_pMedia, (*it_tag)->_nMediaLen);
+		it_tag=_vpTag.erase(it_tag);
 	}
-	f.close();
 
 	return 1;
 }
 
-int CFlvParser::DumpAAC(const std::string &path)
+int CFlvParser::DumpAAC()
 {
-	fstream f;
-	f.open(path, ios_base::out | ios_base::binary);
-
 	vector<Tag *>::iterator it_tag;
-	for (it_tag = _vpTag.begin(); it_tag < _vpTag.end(); it_tag++)
+	for (it_tag = _vpTag.begin(); it_tag < _vpTag.end();)
 	{
 		if ((*it_tag)->_header.nType != 0x08)
+		{
+			it_tag++;
 			continue;
+		}
 
 		CAudioTag *pAudioTag = (CAudioTag *)(*it_tag);
 		if (pAudioTag->_nSoundFormat != 10)
+		{
+			it_tag++;
 			continue;
+		}
 
-		if (pAudioTag->_nMediaLen!=0)
-			f.write((char *)(*it_tag)->_pMedia, (*it_tag)->_nMediaLen);
+		if (pAudioTag->_nMediaLen != 0)
+		{
+			f_a.write((char *)(*it_tag)->_pMedia, (*it_tag)->_nMediaLen);
+		}
+		it_tag = _vpTag.erase(it_tag);
 	}
-	f.close();
-
+	_vpTag.clear();
 	return 1;
 }
 

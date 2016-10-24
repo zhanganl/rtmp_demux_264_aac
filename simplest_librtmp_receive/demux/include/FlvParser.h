@@ -1,6 +1,7 @@
 #ifndef FLVPARSER_H
 #define FLVPARSER_H
 
+#include <fstream>
 #include <vector>
 
 #include "Videojj.h"
@@ -17,8 +18,8 @@ public:
 
 	int Parse(unsigned char *pBuf, int nBufSize, int &nUsedLen);
 	int PrintInfo();
-	int DumpH264(const std::string &path);
-	int DumpAAC(const std::string &path);
+	int DumpH264();
+	int DumpAAC();
 
 private:
 	typedef struct FlvHeader_s
@@ -103,6 +104,8 @@ private:
 	friend Tag;
 	
 private:
+	fstream f_v;
+	fstream f_a;
 
 	FlvHeader *CreateFlvHeader(unsigned char *pBuf);
 	int DestroyFlvHeader(FlvHeader *pHeader);

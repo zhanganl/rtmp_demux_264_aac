@@ -109,8 +109,8 @@ int main(int argc, char* argv[])
 		parser.Parse(pBuf, nRead, nUsedLen);
 
 		parser.PrintInfo();
-		parser.DumpH264("parser.264");
-		parser.DumpAAC("parser.aac");
+		parser.DumpH264();
+		parser.DumpAAC();
 		preleftlen = nRead - nUsedLen;
 		for (int i = 0; i < preleftlen; i++)
 		{
