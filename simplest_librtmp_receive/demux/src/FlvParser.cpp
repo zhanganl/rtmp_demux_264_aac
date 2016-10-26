@@ -25,6 +25,10 @@ CFlvParser::~CFlvParser()
 {
 	f_v.close();
 	f_a.close();
+	sequence_number_v = 1;
+	sequence_number_a = 1;
+	ts_current_v = 1000;
+	ts_current_a = 1000;
 	for (int i = 0; i < _vpTag.size(); i++)
 	{
 		DestroyTag(_vpTag[i]);
@@ -32,6 +36,95 @@ CFlvParser::~CFlvParser()
 	}
 	if (_vjj != NULL)
 		delete _vjj;
+}
+
+void AssignUWord32ToBuffer(unsigned char* dataBuffer, unsigned int value)
+{
+	dataBuffer[0] = (unsigned char)(value >> 24);
+	dataBuffer[1] = (unsigned char)(value >> 16);
+	dataBuffer[2] = (unsigned char)(value >> 8);
+	dataBuffer[3] = (unsigned char)(value);
+}
+
+void AssignUWord16ToBuffer(unsigned char* dataBuffer, unsigned int value)
+{
+	dataBuffer[0] = (unsigned char)(value >> 8);
+	dataBuffer[1] = (unsigned char)(value);
+}
+
+int CFlvParser::stream2rtp(int b_video, uint8_t *SrcStream, int Srclen, uint8_t *DstStream, int &Dstlen, bool marker_bit, uint32_t timestamp_rtp)
+{
+	rtp_header_t *rtp_hdr;
+	rtp_hdr = (rtp_header_t *)DstStream;
+
+	uint16_t seq_num;
+	uint32_t ts_current;
+	if (b_video)
+	{
+		seq_num = sequence_number_v;
+		sequence_number_v++;
+		ts_current = timestamp_rtp;
+		ts_current_v += 67;
+		rtp_hdr->payload_type = 121;
+		rtp_hdr->ssrc = SSRC_NUM;
+	}
+	else
+	{
+		seq_num = sequence_number_a;
+		sequence_number_a++;
+		if (sequence_number_a % 5 == 0 || sequence_number_a % 5 == 3)
+		{
+			ts_current = ts_current_a;
+			ts_current_a += 1120;
+		}
+		else
+		{
+			ts_current = ts_current_a;
+			ts_current_a += 960;
+		}
+		//ts_current = ts_current_a;
+		//ts_current_a += 1024;
+		rtp_hdr->payload_type = 124;
+		rtp_hdr->ssrc = SSRC_NUM + 1;
+	}
+
+	uint8_t *nalu_buf;
+	nalu_buf = SrcStream;
+
+	if (Srclen < 1) {
+		return -1;
+	}
+
+	/*
+	* 1. 设置 rtp 头
+	*/
+
+	rtp_hdr->first_byte = 0x80;
+
+	if (marker_bit) {
+		rtp_hdr->payload_type |= kRtpMarkerBitMask;  // Marker bit is set.
+	}
+
+	//rtp_hdr->seq_no = seq_num;
+	//rtp_hdr->timestamp = ts_current << 24 + ts_current << 16 + ts_current << 8 + ts_current;
+	AssignUWord16ToBuffer(DstStream + 2, seq_num);
+
+	AssignUWord32ToBuffer(DstStream + 4, ts_current);
+
+	/*
+	* 2. 填充nal内容
+	*/
+	if (b_video)
+	{
+		memcpy(DstStream + 12, nalu_buf + 4, Srclen - 4);  /* 不拷贝nalu头 */
+		Srclen = Srclen - 4;
+	}
+	else
+		memcpy(DstStream + 12, nalu_buf, Srclen);
+
+	Dstlen = 12 + Srclen;
+
+	return 0;
 }
 
 int CFlvParser::Parse(unsigned char *pBuf, int nBufSize, int &nUsedLen)

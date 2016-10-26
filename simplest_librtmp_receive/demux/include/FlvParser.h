@@ -8,7 +8,33 @@
 
 using namespace std;
 
-typedef unsigned long long uint64_t;
+#define SSRC_NUM                    10
+#define kRtpMarkerBitMask			0x80
+
+
+
+//typedef unsigned long long uint64_t;
+
+typedef signed char         int8_t;
+typedef signed short        int16_t;
+typedef signed int          int32_t;
+typedef __int64             int64_t;
+typedef unsigned char       uint8_t;
+typedef unsigned short      uint16_t;
+typedef unsigned int        uint32_t;
+typedef unsigned __int64    uint64_t;
+
+typedef struct rtp_header {
+	/* byte 1 */
+	uint8_t first_byte;
+	uint8_t payload_type;
+	/* bytes 2, 3 */
+	uint16_t seq_no;
+	/* bytes 4-7 */
+	uint32_t timestamp;
+	/* bytes 8-11 */
+	uint32_t ssrc;
+}rtp_header_t; /* 12 bytes */
 
 class CFlvParser
 {
@@ -91,6 +117,8 @@ private:
 		int nLengthSize = 0;
 	} FlvStat;
 
+	int stream2rtp(int b_video, uint8_t *SrcStream, int Srclen, uint8_t *DstStream, int &Dstlen, bool marker_bit, uint32_t timestamp_rtp);
+
 	static unsigned int ShowU32(unsigned char *pBuf) { return (pBuf[0] << 24) + (pBuf[1] << 16) + (pBuf[2] << 8) + pBuf[3]; }
 	static unsigned int ShowU24(unsigned char *pBuf) { return (pBuf[0] << 16) + (pBuf[1] << 8) + (pBuf[2]); }
 	static unsigned int ShowU16(unsigned char *pBuf) { return (pBuf[0] << 8) + (pBuf[1]); }
@@ -116,6 +144,10 @@ private:
 	int IsUserDataTag(Tag *pTag);
 
 private:
+	uint16_t sequence_number_v;
+	uint16_t sequence_number_a;
+	uint32_t ts_current_v;
+	uint32_t ts_current_a;
 
 	FlvHeader* _pFlvHeader;
 	vector<Tag *> _vpTag;
