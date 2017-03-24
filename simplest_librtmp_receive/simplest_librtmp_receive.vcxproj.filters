@@ -27,6 +27,9 @@
     <ClCompile Include="demux\src\Videojj.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="demux\src\parse_h264.cc">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="demux\include\FlvParser.h">
@@ -36,6 +39,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="demux\include\Videojj.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="demux\src\parse_h264.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

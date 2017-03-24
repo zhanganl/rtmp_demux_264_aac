@@ -3,6 +3,8 @@
 
 #include "FlvParser.h"
 
+#include "parse_h264.h"
+
 using namespace std;
 
 #define CheckBuffer(x) { if ((nBufSize-nOffset)<(x)) { nUsedLen = nOffset; return 0;} }
@@ -181,8 +183,22 @@ int CFlvParser::DumpH264()
 			it_tag++;
 			continue;
 		}
+		int type = ((*it_tag)->_pMedia[4])&31;
+		if (type == 0x07)
+		{
+			int width;
+			int height;
+			int fps;
+			int stride;
+
+			h264_decode_sps((BYTE*)(*it_tag)->_pMedia+4, (*it_tag)->_nMediaLen-4, &width, &height, &fps, &stride);
+
+			printf("width:%d,height:%d", width, height);
+		}
 
 		f_v.write((char *)(*it_tag)->_pMedia, (*it_tag)->_nMediaLen);
+		char end[6] = { 0, 0, 0, 0, 0, 2 };
+		f_v.write(end, 6);
 		it_tag=_vpTag.erase(it_tag);
 	}
 

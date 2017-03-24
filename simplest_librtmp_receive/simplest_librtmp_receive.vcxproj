@@ -84,6 +84,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="demux\src\FlvParser.cpp" />
+    <ClCompile Include="demux\src\parse_h264.cc" />
     <ClCompile Include="demux\src\vadbg.cpp" />
     <ClCompile Include="demux\src\Videojj.cpp" />
     <ClCompile Include="simplest_librtmp_receive.cpp" />
@@ -92,6 +93,7 @@
     <ClInclude Include="demux\include\FlvParser.h" />
     <ClInclude Include="demux\include\vadbg.h" />
     <ClInclude Include="demux\include\Videojj.h" />
+    <ClInclude Include="demux\src\parse_h264.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
