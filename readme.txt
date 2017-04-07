@@ -1,7 +1,7 @@
-¹¦ÄÜ£º´Ë¹¤³Ì¹¦ÄÜÊÇ¿ÉÒÔ½«ÊµÊ±À­È¡ÏÂÀ´µÄrtmpÁ÷·ÖÀë³ö264ºÍAAC¡£
+åŠŸèƒ½ï¼šæ­¤å·¥ç¨‹åŠŸèƒ½æ˜¯å¯ä»¥å°†å®žæ—¶æ‹‰å–ä¸‹æ¥çš„rtmpæµåˆ†ç¦»å‡º264å’ŒAACã€‚(å¢žåŠ äº†264è§£æžSPS)
 
-²Î¿¼£º1¡¢À×Ïöæè Simplest LibRTMP Example
-      2¡¢flvparse£¨ÓÅÐãµÄ´úÂë£©
+å‚è€ƒï¼š1ã€é›·éœ„éª… Simplest LibRTMP Example
+      2ã€flvparseï¼ˆä¼˜ç§€çš„ä»£ç ï¼‰
 
 
-±¾ÈËÓÊÏä£º1178009746@qq.com
+æœ¬äººé‚®ç®±ï¼š1178009746@qq.com
